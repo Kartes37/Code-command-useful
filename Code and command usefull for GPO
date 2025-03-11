@@ -1,0 +1,43 @@
+**Ouvrir l’Éditeur du Registre** :
+    - `Win + R` → Tapez `regedit` → **Entrée**
+- **Naviguer jusqu'à la clé** :
+    
+    sql
+    
+    CopierModifier
+    
+    `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System`
+    
+- **Créer ou modifier la valeur** :
+    - Cherchez **"VerboseStatus"** (ou créez-la si elle n’existe pas).
+    - Définissez sa valeur **DWORD (32 bits)** sur **1**.
+- **Redémarrer l’ordinateur** pour appliquer les modifications.
+
+Cela à eu du mal a marché car besoin de :
+
+**Ouvre l'Éditeur de stratégie de groupe locale** :
+
+- Appuie sur `Win + R`, tape **`gpedit.msc`**, puis valide avec **Entrée**.
+
+2️⃣ **Navigue jusqu’au bon emplacement** :
+
+vbnet
+
+CopierModifier
+
+`Configuration ordinateur   └── Modèles d’administration       └── Système`  
+
+3️⃣ **Cherche le paramètre :**
+
+- **"Afficher les messages d’état détaillés"** (tout en bas dans système, grande fenêtre de droite)
+- Double-clique dessus et mets-le sur **"Activé"**.
+
+---
+Analyse de GPO Commande utile: 
+
+gpresult /r  = liste les gpo appliqué pour l'ordinateur et l'utilisateur connecté, le domaine et les groupe de sécurité
+
+gpresult /h C:\GPO_Report.html puis ouvrir dans un navigateur pour une analyse visuel
+
+--- 
+Default domain policy est la la stratégie de groupe ou tu peux gérer des stratégie de mot de passe, antériorité,...
