@@ -1,0 +1,69 @@
+`Test-WsMan <NomOuIP-du-Serveur>` et si la réponse donnée n’est pas une erreur mais donne des informations alors (ex : product version, protocole, ect…) c’est que c’est bien installé
+
+pour gérer le dchp depuis son pc pro au sein du réseau : `Import-Module DhcpServer`
+
+Sert à connaitre les beaux sur le dchp qui ont pour nom SRV-dhcp:
+
+`Get-DhcpServerv4Scope -ComputerName "srv-dhcp"`
+
+**Je suis venue à cette idée en reliant ces deux formules:** 
+
+comment faire en sorte de relier la formule `ScopeIds = @("etendue IDexemple1", "etendue IDexemple2", "etendue IDexemple13", "etendue IDexemple4", "etendue IDexemple15") $ScopeIds | ForEach-Object { Get-DhcpServerv4Lease -ComputerName srv-dhcp -ScopeId $_ | Select-Object IPAddress, HostName, ClientID }`à cette formule `Get-DhcpServerv4Scope -ComputerName "srv-dhcp"`
+
+**Ce qui (chatgpt) me donne ceci:**
+
+`Get-DhcpServerv4Scope -ComputerName "srv-dhcp"`
+
+ #Récupérer tous les ScopeIds du serveur DHCP
+
+`$Scopes = Get-DhcpServerv4Scope -ComputerName "srv-dhcp"`
+
+#Extraire les ScopeId
+
+`$ScopeIds = $Scopes | Select-Object -ExpandProperty ScopeId`
+
+#Utiliser chaque ScopeId dans ta commande Get-DhcpServerv4Lease
+
+`$ScopeIds | ForEach-Object {`
+
+    `Get-DhcpServerv4Lease -ComputerName srv-dhcp -ScopeId $_ | Select-Object IPAddress, HostName, ClientID`
+
+}
+
+
+**Remodifier commande précédente pour arriver à classer les appareils par étendue et  qui commence par WT:**
+
+#Récupérer tous les ScopeIds du serveur DHCP
+`$Scopes = Get-DhcpServerv4Scope -ComputerName "srv-dhcp"`
+
+#Extraire les ScopeId
+`$ScopeIds = $Scopes | Select-Object -ExpandProperty ScopeId`
+
+#Récupérer les baux DHCP pour chaque ScopeId, filtrer par hostname commençant par "WT", et trier par ScopeId
+`$ScopeIds | ForEach-Object {`
+    `Get-DhcpServerv4Lease -ComputerName srv-dhcp -ScopeId $_ |` 
+    `Where-Object { $_.HostName -like "WT*" } |` 
+    `Select-Object IPAddress, HostName, ClientID, ScopeId`
+`} | Sort-Object ScopeId`
+
+**Remodifier la commande pour classer par nom du dhcp concerné:**
+
+#Récupérer tous les ScopeIds et leurs noms du serveur DHCP
+$Scopes = Get-DhcpServerv4Scope -ComputerName "srv-dhcp"
+
+#Récupérer les baux DHCP pour chaque ScopeId, filtrer par hostname commençant par "WT", et trier par ScopeId
+$Scopes | ForEach-Object {
+    $ScopeId = $_.ScopeId
+    $ScopeName = $_.Name
+
+    Get-DhcpServerv4Lease -ComputerName srv-dhcp -ScopeId $ScopeId | 
+    Where-Object { $_.HostName -like "WT*" } | 
+    Select-Object IPAddress, HostName, ClientID, @{Name="ScopeId";Expression={$ScopeId}}, @{Name="ScopeName";Expression={$ScopeName}}
+} | Sort-Object ScopeId
+
+
+**Commande plus simple:** 
+
+`Get-DhcpServerv4Scope -ComputerName "srv-dhcp" | Get-DhcpServerv4Lease -ComputerName "srv-dhcp" |  Where-Object { $_.HostName -like "WT*" } | Ft IPAddress, HostName, ScopeId, ClientID`
+
+`Get-DhcpServerv4Scope -ComputerName "srv-dhcp"` = va chercher les étendue sur le module installé `Import-Module DhcpServer`
