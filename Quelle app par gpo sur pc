@@ -1,0 +1,11 @@
+Get-WmiObject -Query "SELECT * FROM Win32_Product" | Select-Object Name, Vendor, InstallSource, InstallDate | Format-Table -AutoSize
+
+Peut servir à voir  quel sont les application installé et d'où elle vienne
+
+---
+
+Création fichier XMl pour mettre pdf par défaut =
+Dism /Online /Export-DefaultAppAssociations:"C:\AssociationsFichiers.xml"
+
+[GPO – Comment configurer les associations de fichiers par défaut Windows 11 ? | IT-Connect](https://www.it-connect.fr/gpo-comment-configurer-les-associations-de-fichiers-par-defaut-windows-11/)
+[Setting the Default PDF Viewer — Deployment Planning and Configuration](https://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/pdfviewer.html)
