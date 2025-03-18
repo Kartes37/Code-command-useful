@@ -1,0 +1,98 @@
+# Vérifie si Teams est déjà installé
+if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (Test-Path "C:\Program Files\Microsoft\Teams\current\Teams.exe")) {
+    Write-Host "Teams est déjà installé."
+    exit
+}
+
+# Lancer l'installation
+Write-Host "Installation de Teams en cours..."
+Start-Process -FilePath "\\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe" -Wait
+
+# Vérifier si l'installation a réussi
+if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (Test-Path "C:\Program Files\Microsoft\Teams\current\Teams.exe")) {
+    Write-Host "Installation réussie."
+} else {
+    Write-Host "Erreur lors de l'installation de Teams."
+    exit 1
+}
+
+
+avec version administrateur:
+
+# Vérifie si le script est exécuté avec des droits administrateur
+$adminCheck = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+$adminRole = New-Object System.Security.Principal.WindowsPrincipal($adminCheck)
+if (-not $adminRole.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    # Relance le script avec des privilèges administrateur
+    Write-Host "Relance du script avec des privilèges administrateur..."
+    Start-Process powershell.exe -ArgumentList "-File $PSCommandPath" -Verb RunAs
+    exit
+}
+
+# Vérifie si Teams est déjà installé
+if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (Test-Path "C:\Program Files\Microsoft\Teams\current\Teams.exe")) {
+    Write-Host "Teams est déjà installé."
+    exit
+}
+
+# Lancer l'installation
+Write-Host "Installation de Teams en cours..."
+Start-Process -FilePath "\\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe" -Wait
+
+# Vérifier si l'installation a réussi
+if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (Test-Path "C:\Program Files\Microsoft\Teams\current\Teams.exe")) {
+    Write-Host "Installation réussie."
+} else {
+    Write-Host "Erreur lors de l'installation de Teams."
+    exit 1
+}
+
+--- test avec une version de déboguage:
+
+# Vérifie si le script est exécuté avec des droits administrateur
+$adminCheck = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+$adminRole = New-Object System.Security.Principal.WindowsPrincipal($adminCheck)
+if (-not $adminRole.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    # Relance le script avec des privilèges administrateur
+    Write-Host "Le script nécessite des privilèges administrateur. Relance du script avec des privilèges administrateur..."
+    Start-Process powershell.exe -ArgumentList "-File $PSCommandPath" -Verb RunAs
+    exit
+}
+
+# Vérifie si Teams est déjà installé
+Write-Host "Vérification si Teams est déjà installé..."
+if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (Test-Path "C:\Program Files\Microsoft\Teams\current\Teams.exe")) {
+    Write-Host "Teams est déjà installé. Aucune installation nécessaire."
+    exit
+}
+
+# Lancer l'installation
+Write-Host "Teams n'est pas installé. Lancement de l'installation..."
+try {
+    Start-Process -FilePath "\\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe" -Wait
+    Write-Host "Installation de Teams en cours... Attente de la fin de l'installation."
+} catch {
+    Write-Host "Erreur lors de l'exécution de l'installation de Teams : $_"
+    exit 1
+}
+
+# Vérifier si l'installation a réussi
+Write-Host "Vérification si l'installation a réussi..."
+if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (Test-Path "C:\Program Files\Microsoft\Teams\current\Teams.exe")) {
+    Write-Host "Installation de Teams réussie."
+} else {
+    Write-Host "Erreur lors de l'installation de Teams : Le fichier Teams.exe n'a pas été trouvé dans le répertoire d'installation."
+    Write-Host "Vérifie si l'emplacement du fichier d'installation est correct et si le réseau est accessible."
+    exit 1
+}
+
+
+ce qui à donnée ceci: PS C:\WINDOWS\system32> C:\Users\bondu\test_install_teamsGPO.ps1
+Vérification si Teams est déjà installé...
+Teams n'est pas installé. Lancement de l'installation...
+Installation de Teams en cours... Attente de la fin de l'installation.
+Vérification si l'installation a réussi...
+Erreur lors de l'installation de Teams : Le fichier Teams.exe n'a pas été trouvé dans le répertoire d'installation.
+Vérifie si l'emplacement du fichier d'installation est correct et si le réseau est accessible.
+
+Avec un script de déboguage supplementaire :
