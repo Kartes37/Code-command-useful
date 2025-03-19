@@ -97,7 +97,9 @@ Vérifie si l'emplacement du fichier d'installation est correct et si le réseau
 
 Avec un script de déboguage supplementaire :
 
-Ce qui fonctionne: \\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe -p 
+Ce qui fonctionne: \\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe -p (install)
+
+                    \\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe -x	(uninstall)
 
 https://4sysops.com/archives/install-the-new-teams-client-bulk-installer-policies-changes-from-the-classic-client-system-prerequisites/
 
