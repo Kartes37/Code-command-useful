@@ -96,3 +96,10 @@ Erreur lors de l'installation de Teams : Le fichier Teams.exe n'a pas été trou
 Vérifie si l'emplacement du fichier d'installation est correct et si le réseau est accessible.
 
 Avec un script de déboguage supplementaire :
+
+Ce qui fonctionne: \\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe -p 
+
+
+
+
+
