@@ -1,3 +1,5 @@
+Install teams bootstrapper
+
 # Vérifie si Teams est déjà installé
 if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (Test-Path "C:\Program Files\Microsoft\Teams\current\Teams.exe")) {
     Write-Host "Teams est déjà installé."
