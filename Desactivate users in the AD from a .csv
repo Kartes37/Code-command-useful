@@ -1,0 +1,32 @@
+# === Chemin vers le fichier CSV exporté ===
+$csvPath = "C:\Rapports\InactiveUsersWithSharedMailbox.csv"
+
+# === Chargement du fichier CSV avec point-virgule comme séparateur ===
+try {
+    $users = Import-Csv -Path $csvPath -Delimiter ";"
+    Write-Host "`n✅ Fichier CSV chargé avec succès.`n"
+}
+catch {
+    Write-Error "❌ Erreur lors du chargement du fichier CSV : $_"
+    exit
+}
+
+# === Désactivation des utilisateurs ===
+foreach ($user in $users) {
+    $samAccountName = $user.SamAccountName
+
+    if (![string]::IsNullOrWhiteSpace($samAccountName)) {
+        try {
+            Disable-ADAccount -Identity $samAccountName -Confirm:$false
+            Write-Host "✅ Utilisateur désactivé : $samAccountName" -ForegroundColor Green
+        }
+        catch {
+            Write-Host "❌ Erreur lors de la désactivation de $samAccountName : $_" -ForegroundColor Red
+        }
+    }
+    else {
+        Write-Warning "⚠️ SamAccountName manquant ou vide dans une ligne du CSV."
+    }
+}
+
+Write-Host "`n✅ Traitement terminé.`n"
