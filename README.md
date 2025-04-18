@@ -1,11 +1,14 @@
 # Code-command-useful
-Stock my command, script and code usefull
 
-Hello, you can use my code but i dont take the credit nor the problem when or if you use it
+Stock of my useful commands, scripts, and code
 
-Code and command usefull for gpo: This script is useful for viewing the GPOs that apply to a computer or user within a domain.
+Hello, you can use my code, but I do not take credit for it, nor am I responsible for any issues that may occur when or if you use it.
 
-Install teams bootstrapper : This script is useful for installing Teams on a computer in a domain via GPO
+Useful code and commands for GPOs
+This script is useful for viewing the GPOs applied to a computer or user within a domain.
 
-Schearch DHCP by powershell : This script is useful for sorting DHCP leases to find certain types of machines.
+Install Teams Bootstrapper
+This script is useful for installing Microsoft Teams on a computer within a domain via GPO.
 
+Search DHCP with PowerShell
+This script is useful for sorting DHCP leases to locate specific types of machines.
