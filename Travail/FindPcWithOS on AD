@@ -1,0 +1,4 @@
+Get-ADComputer -Filter {
+    (Enabled -eq $true) -and (OperatingSystem -like "*Windows 10*")
+} -Property Name,OperatingSystem,OperatingSystemServicePack,OperatingSystemVersion |
+Format-Table Name, OperatingSystem, OperatingSystemServicePack, OperatingSystemVersion -Wrap -AutoSize
