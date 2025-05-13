@@ -8,7 +8,7 @@ if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (
 
 # Lancer l'installation
 Write-Host "Installation de Teams en cours..."
-Start-Process -FilePath "\\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe" -Wait
+Start-Process -FilePath "\\nomdudomaine\SYSVOL\NOMDUDOMAINE\scripts\Teams\teamsbootstrapper.exe" -Wait
 
 # Vérifier si l'installation a réussi
 if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (Test-Path "C:\Program Files\Microsoft\Teams\current\Teams.exe")) {
@@ -39,7 +39,7 @@ if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (
 
 # Lancer l'installation
 Write-Host "Installation de Teams en cours..."
-Start-Process -FilePath "\\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe" -Wait
+Start-Process -FilePath "\\nomdudomaine\SYSVOL\NOMDUDOMAINE\scripts\Teams\teamsbootstrapper.exe" -Wait
 
 # Vérifier si l'installation a réussi
 if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (Test-Path "C:\Program Files\Microsoft\Teams\current\Teams.exe")) {
@@ -71,7 +71,7 @@ if ((Test-Path "C:\Program Files (x86)\Microsoft\Teams\current\Teams.exe") -or (
 # Lancer l'installation
 Write-Host "Teams n'est pas installé. Lancement de l'installation..."
 try {
-    Start-Process -FilePath "\\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe" -Wait
+    Start-Process -FilePath "\\nomdudomaine\SYSVOL\NOMDUDOMAINE\scripts\Teams\teamsbootstrapper.exe" -Wait
     Write-Host "Installation de Teams en cours... Attente de la fin de l'installation."
 } catch {
     Write-Host "Erreur lors de l'exécution de l'installation de Teams : $_"
@@ -99,9 +99,9 @@ Vérifie si l'emplacement du fichier d'installation est correct et si le réseau
 
 Avec un script de déboguage supplementaire :
 
-Ce qui fonctionne: \\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe -p (install)
+Ce qui fonctionne: \\nomdudomaine\SYSVOL\NOMDUDOMAINE\scripts\Teams\teamsbootstrapper.exe -p (install)
 
-                    \\aer.loc\SYSVOL\AER.LOC\scripts\Teams\teamsbootstrapper.exe -x	(uninstall)
+                    \\nomdudomaine\SYSVOL\NOMDUDOMAINE\scripts\Teams\teamsbootstrapper.exe -x	(uninstall)
 
 https://4sysops.com/archives/install-the-new-teams-client-bulk-installer-policies-changes-from-the-classic-client-system-prerequisites/
 
