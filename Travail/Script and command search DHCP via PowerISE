@@ -62,7 +62,26 @@ $Scopes | ForEach-Object {
 } | Sort-Object ScopeId
 
 
-**Commande plus simple:** 
+**Commande fonctionnel:**
+
+# Récupère et filtre les baux Wyze, puis exporte en CSV
+$WyzeLeases = Get-DhcpServerv4Scope -ComputerName "srv-dhcp" | 
+ForEach-Object {
+    $ScopeId = $_.ScopeId
+    $ScopeName = $_.Name
+    Get-DhcpServerv4Lease -ComputerName "srv-dhcp" -ScopeId $ScopeId | 
+    Where-Object { $_.HostName -and $_.HostName -like "WT*" } | 
+    Select-Object IPAddress, HostName, ClientID, ScopeId, @{Name="ScopeName";Expression={$ScopeName}}
+}
+
+# Trie et affiche en tableau
+$WyzeLeases | Sort-Object ScopeId | Format-Table -AutoSize
+
+# Exporte en CSV
+$WyzeLeases | Export-Csv -Path "C:\Users\bondu\ResultScript\WyzeLeases.csv" -NoTypeInformation -Encoding UTF8
+
+Write-Host "Export terminé : C:\Users\bondu\ResultScript\WyzeLeases.csv" -ForegroundColor Green
+
 
 `Get-DhcpServerv4Scope -ComputerName "srv-dhcp" | Get-DhcpServerv4Lease -ComputerName "srv-dhcp" |  Where-Object { $_.HostName -like "WT*" } | Ft IPAddress, HostName, ScopeId, ClientID`
 
